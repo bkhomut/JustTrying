@@ -7,13 +7,24 @@
 //
 
 import UIKit
+import MobileCoreServices
 
 class ProfileViewController: UIViewController {
 
+    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var profileImageView: UIImageView!
+    @IBOutlet weak var nameLabel: UILabel!
+    
+//    var referenceVC = ViewController()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        
+        nameLabel.text = NSUserDefaults.standardUserDefaults().objectForKey("userName") as? String
+        profileImageView.image = NSUserDefaults.standardUserDefaults().objectForKey("userName2") as? UIImage
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -32,4 +43,6 @@ class ProfileViewController: UIViewController {
     }
     */
 
+    
+    
 }
