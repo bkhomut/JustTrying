@@ -12,15 +12,15 @@ import MobileCoreServices
 class ViewController: UIViewController, FBLoginViewDelegate {
 
     @IBOutlet weak var fbLoginView: FBLoginView!
-
-    var refName = ""
+    @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var profileImageView: UIImageView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
     
         self.fbLoginView.delegate = self
-        self.fbLoginView.readPermissions = ["public_profile", "publish_actions"]
+        self.fbLoginView.readPermissions = ["public_profile", "publish_actions", "email", "user_friends"]
     
     }
 
@@ -36,19 +36,14 @@ class ViewController: UIViewController, FBLoginViewDelegate {
     func loginViewFetchedUserInfo(loginView: FBLoginView!, user: FBGraphUser!) {
         
         println(user)
-        self.refName = user.name
         
-        NSUserDefaults.standardUserDefaults().setObject(self.refName, forKey: "userName")
+        nameLabel.text = user.name
         
         let userImageURL = "https://graph.facebook.com/\(user.objectID)/picture?type=small"
         let url = NSURL(string: userImageURL)
         let imageData = NSData(contentsOfURL: url!)
         let image = UIImage(data: imageData!)
-        
-        
-        self.performSegueWithIdentifier("profileSegue", sender: nil)
-
-        
+        profileImageView.image = image
     }
     
     func loginViewShowingLoggedOutUser(loginView: FBLoginView!) {
@@ -58,6 +53,10 @@ class ViewController: UIViewController, FBLoginViewDelegate {
         println("Error: \(error.localizedDescription)")
     }
     
+    
+    @IBAction func nextBarButtonItem(sender: UIBarButtonItem) {
+        self.performSegueWithIdentifier("profileSegue", sender: nil)
+    }
     
     
 }
